@@ -44,8 +44,8 @@ def grade(population, target):
 
 
 def evolve(population, target, retain=0.2, rand_select=0.05, mutate=0.01):
-    graded = [(fitness(x, target), x) for x in population]  # grade the population
-    graded = [x[1] for x in sorted(graded)]  # turn graded into a list of parents
+    graded = [(fitness(x, target), x) for x in population]  # turn population into a list of graded tuples
+    graded = [x[1] for x in sorted(graded)]  # turn graded into a list of individuals after sorting
     retain_length = int(len(graded) * retain)  # determine the amount of individuals to retain
     parents = graded[:retain_length]
 
