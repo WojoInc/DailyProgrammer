@@ -113,10 +113,13 @@ def i_lst_s(int_list):
 # TODO add the ability to tweak the mutation and retention parameters
 
 print("This script will use a genetic algorithm to determine the input phrase from a randomly generated"
-      "population of characters")
+      " population of characters")
 target = s_int_l(input("Enter an input phrase: "))
 length = len(target)
-p_size = int(input("How large would you like each population? "))
+# p_size = int(input("How large would you like each population? "))
+# Scale population based on input length
+p_size = length * 5000
+print("Using a population of size: ", p_size)
 
 pop = population(p_size, length)
 fitness_tracker = [grade(pop, target)]
@@ -137,4 +140,4 @@ while most_fit[-1][0] != 0:
           + " with FR: " + str(most_fit[i][0]) + " AVG: " + str(fitness_tracker[-1]))
     i += 1
 
-print("Final answer: " + i_lst_s(pop[0]))
+print("Final answer: " + i_lst_s(pop[0]) + " Found in ", i, " generations")
