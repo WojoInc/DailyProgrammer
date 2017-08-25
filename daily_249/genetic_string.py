@@ -54,7 +54,7 @@ def grade(population, target):
     return fit_sum / len(population) * 1.0
 
 
-def evolve(population, target, retain=0.1, rand_select=0.005, mutation=0.03):
+def evolve(population, target, retain=0.1, rand_select=0.15, mutation=0.03):
     # grade the population, create a list of tuples, sort that list
     # then extract the sorted individuals and store in graded
     # this effectively sorts the list by hamming weight in two lines
@@ -121,19 +121,25 @@ length = len(target)
 p_size = length * 5000
 print("Using a population of size: ", p_size)
 
-pop = population(p_size, length)
-fitness_tracker = [grade(pop, target)]
-most_fit = [(fitness(pop[0], target), pop[0])]
-
 # allow the mutation reate to scale with input length
 mutate_rate = 1 / len(target)
+
+# TODO test if this scaling of rand_select and retain actually helps
+
+rand_select = 1 / (len(target))
+retain = 1 / (len(target))
+pop_size = len(target) * 100
+
+pop = population(pop_size, length)
+fitness_tracker = [grade(pop, target)]
+most_fit = [(fitness(pop[0], target), pop[0])]
 
 # Keep track of the fitness of each population
 # Then stop once the population has achieved a solution, as there is at most one solution for this problem
 i = 0
 # while the closest individual is not the solution, continue
 while most_fit[-1][0] != 0:
-    pop = evolve(pop, target, mutation=mutate_rate)
+    pop = evolve(pop, target, retain=retain, rand_select=rand_select, mutation=mutate_rate)
     fitness_tracker.append(grade(pop, target))
     most_fit.append((fitness(pop[0], target), pop[0]))
     print("Gen " + str(i) + " closest individual: " + i_lst_s(most_fit[i][1])

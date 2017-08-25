@@ -4,17 +4,21 @@ pyramid = []
 while i < num_rows:
     row = input()
     nodes = row.split(" ")
+    pyramid.append([])
     for node in nodes:
-        if (i > 0):
-            pyramid.append(int(node) + pyramid[int((len(pyramid) - 1) / 2)])
-        else:
-            pyramid.append(int(node))
+        pyramid[i].append(int(node))
+
     i += 1
+
+for i in range(0, num_rows - 1):
+    for j in range(0, len(pyramid[i])):
+        pyramid[i + 1][j] += pyramid[i][j]
+        pyramid[i + 1][j + 1] += pyramid[i][j]
+
 short = -1
-while i > 0:
-    if short == -1 or pyramid[len(pyramid) - 1 - i] < short:
-        short = pyramid[len(pyramid) - 1 - i]
-    i -= 1
+for res in pyramid[-1]:
+    if short == -1 or res < short:
+        short = res
 for node in pyramid:
     print(node)
 print("Length of shortest path is: ", short)
