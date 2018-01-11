@@ -9,8 +9,23 @@ from random import randrange
 class keyspace(Enum):
     ALPHA_MIXED = 13
 
+def plot_keyfield(keyfield):
+    """
+    Slice the input keyfield and plot mirrors. Return a 1 dimensional array of mirrors
+    :param keyfield:
+    :return:
+    """
 
-def encrypt():
+    keys = [keyfield[i:i+4] for i in range(0,len(keyfield),4)]
+    print(keys)
+    mirrors = []
+    ort = 0
+    for key in keys:
+        temp = int(key, 16)
+        print(temp)
+
+def encrypt(inString, keyfield):
+
     return 0
 
 
@@ -39,11 +54,6 @@ def gen_key_field(num_mrs, keyspace=keyspace.ALPHA_MIXED.value):
             mirror |= ypos
             print(str(ort) + " at (" + str(xpos) + "," + str(ypos) + ") " + format(mirror, '016b')
                   + " |" + format(mirror, '04x'))
-            # add this back in if and when I figure out how to convert this hex key to readable plaintext
-            # char1 = (mirror & 0xFF00) >> 8
-            # char2 = (mirror & 0x00FF)
-            # key += chr(char1)
-            # key += chr(char2)
             key += format(mirror, '04x')
             num_mrs -= 1
 
@@ -56,7 +66,7 @@ def gen_key_field(num_mrs, keyspace=keyspace.ALPHA_MIXED.value):
                 xpos = randrange(0, keyspace) % keyspace
                 ypos = randrange(0, keyspace) % keyspace
 
-    print(key)
+    return key
 
 
-gen_key_field(20)
+plot_keyfield(gen_key_field(20))
